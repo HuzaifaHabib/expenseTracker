@@ -2,7 +2,7 @@ import { TransactionContext } from "./transContext";
 
 const TransactionReducer = ((state, action)=>{
     switch(action.type) {
-        case "Add" :{
+        case "ADD TRANSACTION" :{
             return [action.payload, ...state]
         }
         default :

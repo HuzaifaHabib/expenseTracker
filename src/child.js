@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import {TransactionContext} from './transContext' 
 import { useContext } from 'react';
@@ -6,7 +6,18 @@ import { useContext } from 'react';
 
 function App() {
 
-    let transactions = useContext(TransactionContext);
+    let {transactions , addTransaction} = useContext(TransactionContext);
+    let [newDesc, setDesc] = useState("");
+    let [newAmount, setAmount ] = useState(0);
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        console.log(newDesc, newAmount);
+        addTransaction({
+            amount: newAmount,
+            desc: newDesc
+        })
+    }
 
     return (
         <div className="container" >
@@ -23,7 +34,7 @@ function App() {
             <ul className="transaction-list">
                 {transactions.map((transObj, ind) => {
                     return (
-                        <li>
+                        <li key={ind}>
                             <span>{transObj.description}</span>
                             <span>{transObj.amount}</span>
 
@@ -34,17 +45,17 @@ function App() {
             </ul>
             <h3>Add new Transaction</h3>
             <hr />
-            <form className="transaction-form">
+            <form className="transaction-form" onSubmit={handleSubmit}>
                 <label>
                     Enter Description <br />
-                    <input type="text" required="true" />
+                    <input type="text" required={true} onChange={(ev) => setDesc(ev.target.value)} />
                 </label>
                 <br />
                 <label>
                     Enter Amount <br />
-                    <input type="text" required="true" />
+                    <input type="text" required={true} onChange={(ev) => setAmount(ev.target.value)} />
                 </label>
-                <input type="submit" value="Add Transaction" />
+                <input type="submit" value="Add Transaction"  />
             </form>
         </div>
     );
