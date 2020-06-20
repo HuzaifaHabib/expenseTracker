@@ -37,5 +37,7 @@
   box-shadow: 0 0 10px gray;
   padding: 5px 2px;
   background-color: white;
-  margin: 5px 0px;
+  margin: 5px 5px;
+  border-radius: 4px;
+
 }
