@@ -6,16 +6,23 @@ import { useContext } from 'react';
 
 function App() {
 
-    let { transactions, addTransaction } = useContext(TransactionContext);
+    let { transactions, addTransaction, deleteTransaction } = useContext(TransactionContext);
     let [newDesc, setDesc] = useState("");
     let [newAmount, setAmount] = useState(0);
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        console.log(newDesc, newAmount);
         addTransaction({
             amount: Number(newAmount),
-            desc: String(newDesc)
+            desc: String(newDesc),
+            id: transactions.length
+        })
+    }
+
+    function handleDelete(ind) {
+        console.log(ind)
+        deleteTransaction({
+            index: ind
         })
     }
 
@@ -39,17 +46,19 @@ function App() {
         return expense;
     }
 
+
     return (
         <div className="container" >
-            <h1 className="text-center">Expense Tracker</h1>
-    <h3>Your balance <br /> {getIncome() + getExpense()}</h3>
+            <h1 className="text-center dosis">Expense Tracker</h1>
+            <h3 className="dosis">Your balance</h3>
+            <h1 className="montserrat"> {getIncome() + getExpense()}</h1>
 
-            <div className="expense-contaner">
-                <h3>Your Income <br /> {getIncome()}</h3>
-                <h3>Your Expense <br /> {getExpense()}</h3>
+            <div className="expense-contaner montserrat">
+                <h3>YOUR INCOME <br /> {getIncome()}</h3>
+                <h3>YOUR EXPENSE<br /> {getExpense()}</h3>
 
             </div>
-            <h3>History</h3>
+            <h3 className="dosis">History</h3>
             <hr />
             <ul className="transaction-list">
                 {transactions.map((transObj, ind) => {
@@ -57,13 +66,13 @@ function App() {
                         <li key={ind}>
                             <span>{transObj.description}</span>
                             <span>{transObj.amount}</span>
-
+                            <span ><button onClick={() => { handleDelete(transObj.id) }}>delete</button></span>
                         </li>
                     )
                 })}
 
             </ul>
-            <h3>Add new Transaction</h3>
+            <h3 className="dosis">Add new Transaction</h3>
             <hr />
             <form className="transaction-form" onSubmit={handleSubmit}>
                 <label>
@@ -75,7 +84,7 @@ function App() {
                     Enter Amount <br />
                     <input type="text" required={true} onChange={(ev) => setAmount(ev.target.value)} />
                 </label>
-                <input type="submit" value="Add Transaction" />
+                <input className="button" type="submit" value="Add Transaction" />
             </form>
         </div>
     );
